@@ -3,7 +3,7 @@ using static AIClient.Utils.Constants;
 
 namespace AIClient.Model
 {
-    internal class Phi3Formatter : IPromptFormatter
+    public class Phi3Formatter : IPromptFormatter
     {
         private readonly string System_Start_Token = "<|system|>";
         private readonly string User_Start_Token = "<|user|>";

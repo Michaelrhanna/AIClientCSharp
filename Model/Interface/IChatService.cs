@@ -7,5 +7,6 @@
         IReadOnlyList<ChatMessage> GetHistory();
         void AddSystemSetup(string systemSetup);
         bool HasChatHistory();
+        string GetSystemPrompt();
     }
 }

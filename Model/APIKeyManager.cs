@@ -7,11 +7,11 @@ using static AIClient.Utils.Constants;
 
 namespace AIClient.Model
 {
-    internal class APIKeyManager
+    public class APIKeyManager
     {
         private AppSettings _appSettings;
 
-        APIKeyManager(AppSettings appSettings)
+        public APIKeyManager(AppSettings appSettings)
         {
             _appSettings = appSettings;
         }

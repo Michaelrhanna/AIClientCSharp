@@ -4,7 +4,7 @@ using System.Text;
 
 namespace AIClient.Model.Interface
 {
-    internal interface IPromptFormatter
+    public interface IPromptFormatter
     {
         Task<string> FormatAsync(IList<ChatMessage> messages);
         Task<List<string>> GetStopTokensAsync();

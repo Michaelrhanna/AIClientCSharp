@@ -27,18 +27,14 @@ namespace AIClient.Model
 
         public IReadOnlyList<ChatMessage> GetHistory() => _messages.AsReadOnly();
 
-        public async void AddSystemSetup(string systemSetup)
+        public void AddSystemSetup(string systemSetup)
         {
-            _messages.Add(new ChatMessage(MessageRole.System, systemSetup));
+            _messages.Clear();
+            _messages.Insert(0, new ChatMessage(MessageRole.System, systemSetup));
         }
 
-        public bool HasChatHistory()
-        {
-            if(_messages.Count == 0)
-            {
-                return false;
-            }
-            return true;
-        }
+        public bool HasChatHistory()    => _messages.Count > 0;
+
+        public string GetSystemPrompt() => _messages.FirstOrDefault(m => m.messageRole == MessageRole.System)?.messageContent ?? string.Empty;
     }
 }

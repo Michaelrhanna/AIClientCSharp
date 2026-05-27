@@ -76,7 +76,7 @@
             MinimizeBox = false;
             Name = "FormSetup";
             ShowInTaskbar = false;
-            Text = "FormSetup";
+            Text = "System Setup";
             ResumeLayout(false);
         }
 

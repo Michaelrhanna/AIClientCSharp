@@ -38,12 +38,11 @@ namespace AIClient
 
             // Core services
             services.AddSingleton<APIKeyManager>();
-            services.AddSingleton<IPromptFormatter, Phi3Formatter>(); 
-            services.AddSingleton<IProvider, ShimmyProvider>();       
+            services.AddSingleton<IPromptFormatter, Phi3Formatter>();       
             services.AddSingleton<IChatService, ChatService>();
 
             // HttpClient for providers
-            services.AddHttpClient<ShimmyProvider>();   
+            services.AddHttpClient<IProvider, ShimmyProvider> ();   
 
             // Forms
             services.AddTransient<FormMain>();

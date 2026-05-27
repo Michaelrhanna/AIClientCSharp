@@ -16,6 +16,7 @@ namespace AIClient
         {
             InitializeComponent();
             _chatService = chatService;
+            rtbSystemSetup.Text = _chatService.GetSystemPrompt();
         }
 
         private void btnSave_Click(object sender, EventArgs e)
@@ -34,7 +35,6 @@ namespace AIClient
                     return;
                 }
             }
-            _chatService.ClearHistory();
             _chatService.AddSystemSetup(rtbSystemSetup.Text.Trim());
             DialogResult = DialogResult.OK;
         }

@@ -11,29 +11,30 @@ namespace AIClient
             InitializeComponent();
         }
 
-        private void btnSend_Click(object sender, EventArgs e)
+        private async void btnSend_Click(object sender, EventArgs e)
         {
-            if (string.IsNullOrEmpty(txtUserInput.Text.Trim()))
+            var userInput = txtUserInput.Text.Trim();
+            if (string.IsNullOrEmpty(userInput))
             {
                 MessageBox.Show("Please enter a message.");
                 return;
             }
-            _chatService.SendAsync(txtUserInput.Text.Trim()).ContinueWith(t =>
+            btnSend.Enabled = false;
+            try
             {
-                if (t.Exception != null)
-                {
-                    MessageBox.Show($"Error: {t.Exception.InnerException?.Message}");
-                }
-                else
-                {
-                    Invoke(() =>
-                    {
-                        rtbChat.AppendText($"User: {txtUserInput.Text.Trim()}\r\n");
-                        rtbChat.AppendText($"AI: {t.Result}\r\n\r\n");
-                        txtUserInput.Clear();
-                    });
-                }
-            });
+                var reply = await _chatService.SendAsync(userInput);
+                rtbChat.AppendText($"User: {userInput}\r\n");
+                rtbChat.AppendText($"AI: {reply}\r\n\r\n");
+                txtUserInput.Clear();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error: {ex.Message}");
+            }
+            finally
+            {
+                btnSend.Enabled = true;
+            }
         }
 
         private void btnSetupSystem_Click(object sender, EventArgs e)

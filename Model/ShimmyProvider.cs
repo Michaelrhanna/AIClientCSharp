@@ -5,7 +5,7 @@ using static AIClient.Utils.Constants;
 
 namespace AIClient.Model
 {
-    internal class ShimmyProvider : IProvider
+    public class ShimmyProvider : IProvider
     {
         private readonly IPromptFormatter _promptFormatter;
         private readonly AppSettings _appSettings;
@@ -47,12 +47,14 @@ namespace AIClient.Model
 
         private async Task<(bool, string)> CheckResponse(HttpResponseMessage response)
         {
-            if (response.StatusCode == System.Net.HttpStatusCode.OK)
+            var body = await response.Content.ReadAsStringAsync();
+            if (response.IsSuccessStatusCode)
             {
-                return (true, string.Empty);
+                var result = JsonSerializer.Deserialize<ShimmyResponse>(body);
+                return (true, result?.Response.Trim() ?? string.Empty);
             }
             else
-                return (false, await response.Content.ReadAsStringAsync());
+                return (false, body);
         }
     }
 }
