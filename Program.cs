@@ -1,3 +1,8 @@
+using AIClient.Model;
+using AIClient.Model.Interface;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+
 namespace AIClient
 {
     internal static class Program
@@ -8,10 +13,40 @@ namespace AIClient
         [STAThread]
         static void Main()
         {
-            // To customize application configuration such as set high DPI settings or default font,
-            // see https://aka.ms/applicationconfiguration.
+
             ApplicationConfiguration.Initialize();
-            Application.Run(new FormMain());
+
+            var services = new ServiceCollection();
+            ConfigureServices(services);
+
+            using var serviceProvider = services.BuildServiceProvider();
+
+            var mainForm = serviceProvider.GetRequiredService<FormMain>();
+            Application.Run(mainForm);
+        }
+
+        static void ConfigureServices(IServiceCollection services)
+        {
+            // Config
+            var config = new ConfigurationBuilder()
+                .SetBasePath(AppContext.BaseDirectory)
+                .AddJsonFile("appsettings.json", optional: false)
+                .Build();
+
+            var appSettings = config.Get<AppSettings>()!;
+            services.AddSingleton(appSettings);
+
+            // Core services
+            services.AddSingleton<APIKeyManager>();
+            services.AddSingleton<IPromptFormatter, Phi3Formatter>(); 
+            services.AddSingleton<IProvider, ShimmyProvider>();       
+            services.AddSingleton<IChatService, ChatService>();
+
+            // HttpClient for providers
+            services.AddHttpClient<ShimmyProvider>();   
+
+            // Forms
+            services.AddTransient<FormMain>();
         }
     }
 }

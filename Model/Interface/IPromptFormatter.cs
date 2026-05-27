@@ -6,5 +6,6 @@ namespace AIClient.Model.Interface
 {
     internal interface IPromptFormatter
     {
+        Task<string> FormatAsync(IList<ChatMessage> messages);
     }
 }

@@ -4,7 +4,8 @@ using System.Text;
 
 namespace AIClient.Model.Interface
 {
-    internal interface IProvider
+    public interface IProvider
     {
+        Task<string> SendAsync(IList<ChatMessage> messages);
     }
 }

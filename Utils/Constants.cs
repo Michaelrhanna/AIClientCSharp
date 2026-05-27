@@ -4,21 +4,21 @@ using System.Text;
 
 namespace AIClient.Utils
 {
-    internal class Constants
+    public static class Constants
     {
-        enum Provider
+        public enum Provider
         {
             OpenAI,
             AzureOpenAI,
             Shimmy
         }
-        enum Model
+        public enum Model
         {
             GPT35Turbo,
             GPT4,
             PHI3
         }
-        enum MessageRole
+        public enum MessageRole
         {
             System,
             User,

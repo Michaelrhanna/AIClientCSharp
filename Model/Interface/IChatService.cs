@@ -4,8 +4,10 @@ using System.Text;
 
 namespace AIClient.Model.Interface
 {
-    internal interface IChatService
+    public interface IChatService
     {
-        SendAsync(IList<ChatMessage> messages);
+        Task<string> SendAsync(string userInput);
+        void ClearHistory();
+        IReadOnlyList<ChatMessage> GetHistory();
     }
 }

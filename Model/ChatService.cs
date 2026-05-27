@@ -1,15 +1,34 @@
 ﻿using AIClient.Model.Interface;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Text;
+using static AIClient.Utils.Constants;
 
 namespace AIClient.Model
 {
-    internal class ChatService : IChatService
+    public class ChatService : IChatService
     {
-        public async Task SendAsync(IList<ChatMessage> messages)
+        private readonly IProvider _Provider;
+        private readonly List<ChatMessage> _messages = new();
+
+        public ChatService(IProvider provider)
         {
-            // Implementation here
+            _Provider = provider;
         }
+
+        public async Task<string> SendAsync(string userInput)
+        {
+            _messages.Add(new ChatMessage(MessageRole.User, userInput));
+
+            var response = await _Provider.SendAsync(_messages);
+
+            _messages.Add(new ChatMessage(MessageRole.Assistant, response));
+            return response;
+        }
+
+        public void ClearHistory() => _messages.Clear();
+
+        public IReadOnlyList<ChatMessage> GetHistory() => _messages.AsReadOnly();
     }
 }
