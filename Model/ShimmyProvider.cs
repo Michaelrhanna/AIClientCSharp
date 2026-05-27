@@ -18,6 +18,7 @@ namespace AIClient.Model
             _appSettings = appSettings;
             _httpClient = httpClient;
             _apiKeyManager = apiKeyManager;
+            _apiKeyManager.InjectHeader(_httpClient, Provider.Shimmy);
         }
 
 
@@ -33,8 +34,6 @@ namespace AIClient.Model
                 Stream = false,
                 StopTokens = await _promptFormatter.GetStopTokensAsync()
             };
-
-            await _apiKeyManager.InjectHeaderAsync(_httpClient, Provider.Shimmy);
 
             var response = await _httpClient.PostAsync(_appSettings.ShimmyBaseUrl, new StringContent(JsonSerializer.Serialize(payLoad), Encoding.UTF8, "application/json"));
             (bool result, string resultMessage) =  await CheckResponse(response);

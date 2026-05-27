@@ -5,10 +5,12 @@ namespace AIClient
     public partial class FormMain : Form
     {
         private readonly IChatService _chatService;
-        public FormMain(IChatService chatService)
+        private readonly Func<FormSetup> _formSetupFactory;
+        public FormMain(IChatService chatService, Func<FormSetup> formSetupFactory)
         {
             _chatService = chatService;
             InitializeComponent();
+            _formSetupFactory = formSetupFactory;
         }
 
         private async void btnSend_Click(object sender, EventArgs e)
@@ -39,7 +41,7 @@ namespace AIClient
 
         private void btnSetupSystem_Click(object sender, EventArgs e)
         {
-            var result = new FormSetup(_chatService).ShowDialog();
+            var result = _formSetupFactory().ShowDialog();
             if (result == DialogResult.OK)
                 rtbChat.Clear();
         }

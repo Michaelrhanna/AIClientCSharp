@@ -1,9 +1,4 @@
-﻿using Microsoft.Extensions.Configuration;
-using System;
-using System.Collections.Generic;
-using System.Configuration.Internal;
-using System.Text;
-using static AIClient.Utils.Constants;
+﻿using static AIClient.Utils.Constants;
 
 namespace AIClient.Model
 {
@@ -16,7 +11,7 @@ namespace AIClient.Model
             _appSettings = appSettings;
         }
 
-        private async Task<string> GetKeyAsync(Provider provider)
+        private string GetKeyAsync(Provider provider)
         {
             // In a real implementation, you might want to fetch the API key from a secure vault or environment variable.
             // In multiple provider scenarios, you could have a switch statement or a dictionary to manage different keys for different providers.
@@ -37,9 +32,9 @@ namespace AIClient.Model
             return _appSettings.ShimmyApiKey.Trim();
         }
 
-        public async Task InjectHeaderAsync(HttpClient client, Provider provider)  // adds Authorization header
+        public void InjectHeader(HttpClient client, Provider provider)  // adds Authorization header
         {             
-            var apiKey = await GetKeyAsync(provider);
+            var apiKey = GetKeyAsync(provider);
             client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", apiKey);
         }
 

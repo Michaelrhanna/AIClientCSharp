@@ -33,7 +33,7 @@ namespace AIClient.Model
             _messages.Insert(0, new ChatMessage(MessageRole.System, systemSetup));
         }
 
-        public bool HasChatHistory()    => _messages.Count > 0;
+        public bool HasChatHistory() => _messages.Any(m => m.messageRole != MessageRole.System);
 
         public string GetSystemPrompt() => _messages.FirstOrDefault(m => m.messageRole == MessageRole.System)?.messageContent ?? string.Empty;
     }

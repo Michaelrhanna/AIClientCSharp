@@ -46,6 +46,9 @@ namespace AIClient
 
             // Forms
             services.AddTransient<FormMain>();
+            services.AddTransient<FormSetup>();
+            services.AddSingleton<Func<FormSetup>>(sp => () => sp.GetRequiredService<FormSetup>());
+
         }
     }
 }
