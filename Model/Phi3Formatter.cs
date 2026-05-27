@@ -10,9 +10,9 @@ namespace AIClient.Model
         private readonly string Assistant_Start_Token = "<|assistant|>";
         private readonly string End_Token = "<|end|>";
 
-        public async Task<IList<string>> GetStopTokens()
+        public async Task<List<string>> GetStopTokensAsync()
         {
-            IList<string> stopTokens = new List<string>
+            List<string> stopTokens = new List<string>
             {
                 User_Start_Token,
                 End_Token

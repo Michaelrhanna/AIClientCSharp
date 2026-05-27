@@ -1,8 +1,4 @@
 ﻿using AIClient.Model.Interface;
-using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Text;
 using static AIClient.Utils.Constants;
 
 namespace AIClient.Model
@@ -30,5 +26,19 @@ namespace AIClient.Model
         public void ClearHistory() => _messages.Clear();
 
         public IReadOnlyList<ChatMessage> GetHistory() => _messages.AsReadOnly();
+
+        public async void AddSystemSetup(string systemSetup)
+        {
+            _messages.Add(new ChatMessage(MessageRole.System, systemSetup));
+        }
+
+        public bool HasChatHistory()
+        {
+            if(_messages.Count == 0)
+            {
+                return false;
+            }
+            return true;
+        }
     }
 }

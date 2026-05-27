@@ -1,36 +1,58 @@
 ﻿using AIClient.Model.Interface;
-using System;
-using System.Collections.Generic;
 using System.Text;
+using System.Text.Json;
+using static AIClient.Utils.Constants;
 
 namespace AIClient.Model
 {
-
-
-
     internal class ShimmyProvider : IProvider
     {
         private readonly IPromptFormatter _promptFormatter;
+        private readonly AppSettings _appSettings;
+        private readonly HttpClient _httpClient;
+        private readonly APIKeyManager _apiKeyManager;
 
-        public ShimmyProvider(IPromptFormatter promptFormatter)
+        public ShimmyProvider(IPromptFormatter promptFormatter, AppSettings appSettings, HttpClient httpClient, APIKeyManager apiKeyManager)
         {
             _promptFormatter = promptFormatter;
+            _appSettings = appSettings;
+            _httpClient = httpClient;
+            _apiKeyManager = apiKeyManager;
         }
 
 
         public async Task<string> SendAsync(IList<ChatMessage> messages)
         {
-                // Format the prompt using the provided formatter
-                string formattedPrompt = await _promptFormatter.FormatAsync(messages);
-    
-                // Here you would implement the logic to send the formatted prompt to the Shimmy API
-                // and receive the response. This is a placeholder for demonstration purposes.
-    
-                // Example:
-                // var response = await _httpClient.PostAsync("https://api.shimmy.com/v1/chat", new StringContent(formattedPrompt));
-                // return await response.Content.ReadAsStringAsync();
-    
-                return "This is a placeholder response from ShimmyProvider.";
+            // Format the prompt using the provided formatter
+            string formattedPrompt = await _promptFormatter.FormatAsync(messages);
+            PayLoad payLoad = new PayLoad
+            {
+                Model = _appSettings.ModelName,
+                Prompt = formattedPrompt,
+                MaxTokens = _appSettings.MaxTokens,
+                Stream = false,
+                StopTokens = await _promptFormatter.GetStopTokensAsync()
+            };
+
+            await _apiKeyManager.InjectHeaderAsync(_httpClient, Provider.Shimmy);
+
+            var response = await _httpClient.PostAsync(_appSettings.ShimmyBaseUrl, new StringContent(JsonSerializer.Serialize(payLoad), Encoding.UTF8, "application/json"));
+            (bool result, string resultMessage) =  await CheckResponse(response);
+
+            if(result == true)
+                return resultMessage;
+
+            throw new Exception($"Error from Shimmy API: {resultMessage}");
+        }
+
+        private async Task<(bool, string)> CheckResponse(HttpResponseMessage response)
+        {
+            if (response.StatusCode == System.Net.HttpStatusCode.OK)
+            {
+                return (true, string.Empty);
+            }
+            else
+                return (false, await response.Content.ReadAsStringAsync());
         }
     }
 }
