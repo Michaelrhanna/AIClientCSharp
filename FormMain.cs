@@ -45,5 +45,11 @@ namespace AIClient
             if (result == DialogResult.OK)
                 rtbChat.Clear();
         }
+
+        private void btnNewConversation_Click(object sender, EventArgs e)
+        {
+            _chatService.ClearHistory();
+            rtbChat.Clear();
+        }
     }
 }

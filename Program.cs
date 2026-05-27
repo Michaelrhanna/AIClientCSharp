@@ -42,7 +42,7 @@ namespace AIClient
             services.AddSingleton<IChatService, ChatService>();
 
             // HttpClient for providers
-            services.AddHttpClient<IProvider, ShimmyProvider> ();   
+            services.AddHttpClient<IProvider, ShimmyProvider>((client) => { client.Timeout = TimeSpan.FromSeconds(300); });   
 
             // Forms
             services.AddTransient<FormMain>();

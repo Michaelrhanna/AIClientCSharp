@@ -23,8 +23,7 @@ namespace AIClient.Model
             return response;
         }
 
-        public void ClearHistory() => _messages.Clear();
-
+        public void ClearHistory() => _messages.RemoveAll(m => m.messageRole != MessageRole.System);
         public IReadOnlyList<ChatMessage> GetHistory() => _messages.AsReadOnly();
 
         public void AddSystemSetup(string systemSetup)

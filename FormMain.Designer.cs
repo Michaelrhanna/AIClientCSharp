@@ -32,6 +32,7 @@
             rtbChat = new RichTextBox();
             btnSend = new Button();
             btnSetupSystem = new Button();
+            btnNewConversation = new Button();
             SuspendLayout();
             // 
             // txtUserInput
@@ -61,19 +62,30 @@
             // 
             // btnSetupSystem
             // 
-            btnSetupSystem.Location = new Point(733, 12);
+            btnSetupSystem.Location = new Point(736, 12);
             btnSetupSystem.Name = "btnSetupSystem";
-            btnSetupSystem.Size = new Size(55, 23);
+            btnSetupSystem.Size = new Size(86, 23);
             btnSetupSystem.TabIndex = 3;
             btnSetupSystem.Text = "Setup";
             btnSetupSystem.UseVisualStyleBackColor = true;
             btnSetupSystem.Click += btnSetupSystem_Click;
             // 
+            // btnNewConversation
+            // 
+            btnNewConversation.Location = new Point(736, 41);
+            btnNewConversation.Name = "btnNewConversation";
+            btnNewConversation.Size = new Size(88, 41);
+            btnNewConversation.TabIndex = 4;
+            btnNewConversation.Text = "New Conversation";
+            btnNewConversation.UseVisualStyleBackColor = true;
+            btnNewConversation.Click += btnNewConversation_Click;
+            // 
             // FormMain
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(800, 450);
+            ClientSize = new Size(834, 450);
+            Controls.Add(btnNewConversation);
             Controls.Add(btnSetupSystem);
             Controls.Add(btnSend);
             Controls.Add(rtbChat);
@@ -90,5 +102,6 @@
         private RichTextBox rtbChat;
         private Button btnSend;
         private Button btnSetupSystem;
+        private Button btnNewConversation;
     }
 }
