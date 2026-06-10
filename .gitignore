@@ -4,3 +4,5 @@
 
 /AIClientTests/bin
 /AIClientTests/obj
+/AIClient/WhisperModels/base/ggml-base.en.bin
+/AIClient/WhisperModels/small/ggml-small.bin
