@@ -33,13 +33,15 @@
             btnSend = new Button();
             btnSetupSystem = new Button();
             btnNewConversation = new Button();
+            btnSpeak = new Button();
             SuspendLayout();
             // 
             // txtUserInput
             // 
-            txtUserInput.Location = new Point(12, 403);
+            txtUserInput.Location = new Point(12, 401);
+            txtUserInput.Multiline = true;
             txtUserInput.Name = "txtUserInput";
-            txtUserInput.Size = new Size(641, 23);
+            txtUserInput.Size = new Size(632, 54);
             txtUserInput.TabIndex = 0;
             // 
             // rtbChat
@@ -52,9 +54,9 @@
             // 
             // btnSend
             // 
-            btnSend.Location = new Point(659, 403);
+            btnSend.Location = new Point(650, 403);
             btnSend.Name = "btnSend";
-            btnSend.Size = new Size(56, 23);
+            btnSend.Size = new Size(77, 23);
             btnSend.TabIndex = 2;
             btnSend.Text = "Send";
             btnSend.UseVisualStyleBackColor = true;
@@ -80,11 +82,23 @@
             btnNewConversation.UseVisualStyleBackColor = true;
             btnNewConversation.Click += btnNewConversation_Click;
             // 
+            // btnSpeak
+            // 
+            btnSpeak.Location = new Point(650, 432);
+            btnSpeak.Name = "btnSpeak";
+            btnSpeak.Size = new Size(77, 23);
+            btnSpeak.TabIndex = 5;
+            btnSpeak.Text = "Speak";
+            btnSpeak.UseVisualStyleBackColor = true;
+            btnSpeak.Click += btnSpeak_Click;
+            // 
             // FormMain
             // 
+            AcceptButton = btnSend;
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(834, 450);
+            ClientSize = new Size(834, 469);
+            Controls.Add(btnSpeak);
             Controls.Add(btnNewConversation);
             Controls.Add(btnSetupSystem);
             Controls.Add(btnSend);
@@ -103,5 +117,6 @@
         private Button btnSend;
         private Button btnSetupSystem;
         private Button btnNewConversation;
+        private Button btnSpeak;
     }
 }

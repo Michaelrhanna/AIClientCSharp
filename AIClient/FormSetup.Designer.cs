@@ -31,13 +31,17 @@
             rtbSystemSetup = new RichTextBox();
             btnSave = new Button();
             btnCancel = new Button();
+            label1 = new Label();
+            label2 = new Label();
+            cmbAvailableVoices = new ComboBox();
+            chkUseTTS = new CheckBox();
             SuspendLayout();
             // 
             // rtbSystemSetup
             // 
-            rtbSystemSetup.Location = new Point(12, 12);
+            rtbSystemSetup.Location = new Point(12, 27);
             rtbSystemSetup.Name = "rtbSystemSetup";
-            rtbSystemSetup.Size = new Size(533, 251);
+            rtbSystemSetup.Size = new Size(536, 102);
             rtbSystemSetup.TabIndex = 0;
             rtbSystemSetup.Text = "";
             // 
@@ -61,6 +65,43 @@
             btnCancel.UseVisualStyleBackColor = true;
             btnCancel.Click += btnCancel_Click;
             // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.Location = new Point(12, 9);
+            label1.Name = "label1";
+            label1.Size = new Size(94, 15);
+            label1.TabIndex = 3;
+            label1.Text = "System Message";
+            // 
+            // label2
+            // 
+            label2.AutoSize = true;
+            label2.Location = new Point(12, 164);
+            label2.Name = "label2";
+            label2.Size = new Size(108, 15);
+            label2.TabIndex = 4;
+            label2.Text = "Select voice for TTS";
+            // 
+            // cmbAvailableVoices
+            // 
+            cmbAvailableVoices.DropDownStyle = ComboBoxStyle.DropDownList;
+            cmbAvailableVoices.FormattingEnabled = true;
+            cmbAvailableVoices.Location = new Point(12, 182);
+            cmbAvailableVoices.Name = "cmbAvailableVoices";
+            cmbAvailableVoices.Size = new Size(536, 23);
+            cmbAvailableVoices.TabIndex = 5;
+            // 
+            // chkUseTTS
+            // 
+            chkUseTTS.AutoSize = true;
+            chkUseTTS.Location = new Point(12, 142);
+            chkUseTTS.Name = "chkUseTTS";
+            chkUseTTS.Size = new Size(66, 19);
+            chkUseTTS.TabIndex = 6;
+            chkUseTTS.Text = "Use TTS";
+            chkUseTTS.UseVisualStyleBackColor = true;
+            // 
             // FormSetup
             // 
             AcceptButton = btnSave;
@@ -68,6 +109,10 @@
             AutoScaleMode = AutoScaleMode.Font;
             CancelButton = btnCancel;
             ClientSize = new Size(560, 314);
+            Controls.Add(chkUseTTS);
+            Controls.Add(cmbAvailableVoices);
+            Controls.Add(label2);
+            Controls.Add(label1);
             Controls.Add(btnCancel);
             Controls.Add(btnSave);
             Controls.Add(rtbSystemSetup);
@@ -78,6 +123,7 @@
             ShowInTaskbar = false;
             Text = "System Setup";
             ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
@@ -85,5 +131,9 @@
         private RichTextBox rtbSystemSetup;
         private Button btnSave;
         private Button btnCancel;
+        private Label label1;
+        private Label label2;
+        private ComboBox cmbAvailableVoices;
+        private CheckBox chkUseTTS;
     }
 }

@@ -1,7 +1,9 @@
 using AIClient.Model;
 using AIClient.Model.Interface;
+using AIClient.Utils;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+
 
 namespace AIClient
 {
@@ -32,23 +34,25 @@ namespace AIClient
                 .SetBasePath(AppContext.BaseDirectory)
                 .AddJsonFile("appsettings.json", optional: false)
                 .Build();
-
+            
             var appSettings = config.Get<AppSettings>()!;
             services.AddSingleton(appSettings);
+            services.AddSingleton<SettingsService>();
 
             // Core services
-            services.AddSingleton<APIKeyManager>();
-            services.AddSingleton<IPromptFormatter, Phi3Formatter>();       
-            services.AddSingleton<IChatService, ChatService>();
+            services.AddCoreServices();
 
             // HttpClient for providers
             services.AddHttpClient<IProvider, ShimmyProvider>((client) => { client.Timeout = TimeSpan.FromSeconds(appSettings.HttpTimeoutSeconds); });   
 
             // Forms
-            services.AddTransient<FormMain>();
-            services.AddTransient<FormSetup>();
-            services.AddSingleton<Func<FormSetup>>(sp => () => sp.GetRequiredService<FormSetup>());
+            services.AddForms();
 
+            // TTSSpeaker
+            services.AddSingleton<TTSSpeaker>();
+
+            string modelPath = Path.Combine(AppContext.BaseDirectory, "WhisperModels\\base\\", "ggml-base.en.bin");
+            services.AddWhisperServices(modelPath);
         }
     }
 }

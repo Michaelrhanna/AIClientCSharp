@@ -1,15 +1,36 @@
-﻿using AIClient.Model.Interface;
+﻿using AIClient.Model;
+using AIClient.Model.Interface;
+using Windows.Media.SpeechSynthesis;
+
 
 namespace AIClient
 {
     public partial class FormSetup : Form
     {
         private readonly IChatService _chatService;
-        public FormSetup(IChatService chatService)
+        private readonly AppSettings _appSettings;
+        private readonly SettingsService _settingsService;
+
+        public FormSetup(IChatService chatService, AppSettings appSettings, SettingsService settingsService)
         {
             InitializeComponent();
             _chatService = chatService;
-            rtbSystemSetup.Text = _chatService.GetSystemPrompt();
+            _appSettings = appSettings;
+            _settingsService = settingsService;
+
+            rtbSystemSetup.Text = _appSettings.SystemMessage;
+
+            foreach (var voice in SpeechSynthesizer.AllVoices)
+            {
+                cmbAvailableVoices.Items.Add(voice.DisplayName);
+            }
+
+            if (_appSettings.TTSVoice != null && cmbAvailableVoices.Items.Contains(_appSettings.TTSVoice))
+            {
+                cmbAvailableVoices.SelectedItem = _appSettings.TTSVoice;
+            }
+
+            chkUseTTS.Checked = _appSettings.UseTTS;
         }
 
         private void btnSave_Click(object sender, EventArgs e)
@@ -29,6 +50,10 @@ namespace AIClient
                 }
             }
             _chatService.AddSystemSetup(rtbSystemSetup.Text.Trim());
+            _appSettings.SystemMessage = rtbSystemSetup.Text.Trim();
+            _appSettings.TTSVoice = cmbAvailableVoices.SelectedItem?.ToString() ?? _appSettings.TTSVoice;
+            _appSettings.UseTTS = chkUseTTS.Checked;
+            _settingsService.SaveSettings();
             DialogResult = DialogResult.OK;
         }
 
